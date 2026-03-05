@@ -20,9 +20,8 @@
 #' dbm$db_disconnect()
 #' }
 #'
-#' @import R6
-#' @import DBI
-#' @import duckdb
+#' @import R6 DBI duckdb
+#'
 #' @export
 
 duckdb_mng <- R6::R6Class(
@@ -30,15 +29,18 @@ duckdb_mng <- R6::R6Class(
 
   public = list(
     # Properties
-    #' The file path to the DuckDB database. Defaults to ":memory:" for an in-memory database.
-    #' The active DBI connection object. Initially NULL until a connection is established.
+    #' @field db_path The file path to the DuckDB database.
+    #' Defaults to "\:memory:\" for an in-memory database.
     db_path = NULL,
+    #' @field connection The active DBI connection object.
+    #' Initially NULL until a connection is established.
     connection = NULL,
 
     # Constructor
     #' Initialize the DuckDB manager with an optional database path.
-    #' @param db_path The file path to the DuckDB database. Defaults to ":memory"
-    #' for an in-memory database. You can specify a file path to use a persistent database.
+    #' @param db_path The file path to the DuckDB database.
+    #' Defaults to ":memory" for an in-memory database.
+    #' You can specify a file path to use a persistent database.
     #' Example usage:
     #'   dbm <- duckdb_mng$new(
     #'            db_path = "my_database.duck
@@ -53,6 +55,7 @@ duckdb_mng <- R6::R6Class(
     #' @description
     #' Print a summary of the DuckDB manager object.
     #' Shows database path and connection status.
+    #' @param ... Additional arguments (ignored).
     print = function(...) {
       cat("DuckDBManager\n")
       cat("  Database:", self$db_path, "\n")
