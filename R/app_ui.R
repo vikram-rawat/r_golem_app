@@ -30,7 +30,7 @@ get_brand_theme <- function() {
 #' @noRd
 app_ui <- function(request) {
   bslib::page_navbar(
-    title = "SKU management System",
+    title = "CRUD App",
     theme = get_brand_theme(),
 
     bslib::nav_spacer(),
