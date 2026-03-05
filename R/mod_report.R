@@ -4,11 +4,11 @@
 mod_reports_ui <- function(id) {
   ns <- NS(id)
   nav_panel(
-    tagList(icon("file-alt"), "Reports"),
+    tagList(icon("file-alt"), "DataSet"),
     layout_column_wrap(
       width = 1,
       card(
-        card_header("Reports Module"),
+        card_header("DataSet Module"),
         card_body("This is the reports tab content.")
       )
     )
