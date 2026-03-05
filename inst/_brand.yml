@@ -1,0 +1,43 @@
+defaults:
+  bootstrap:
+    defaults:
+      navbar-bg: '#457b9d'
+      card-cap-bg: '#457b9d' # header background (dark purple here)
+      # card-cap-color: '#00458b'
+
+meta:
+  name: Home Depot
+
+color:
+  palette:
+    black: '#000000'
+    white: '#FFFFFF'
+    neon-blue: '#00ffff'
+    lemon-yellow: '#fff44f'
+    warm-red: '#ff4f5e'
+    neon-green: '#54ffbd'
+    dark-purple: '#6e008b'
+    dark-green: '#005e5e'
+    dark-blue: '#00458b'
+    dark-grey: '#959595'
+    light-grey: '#e7e5e2'
+
+    # Bootstrap color aliases
+    blue: neon-blue
+    yellow: lemon-yellow
+    red: warm-red
+    green: neon-green
+    purple: dark-purple
+    cyan: neon-blue
+    gray: dark-grey
+
+  foreground: black
+  background: white
+  primary: dark-purple
+  secondary: dark-grey
+  success: neon-green
+  info: blue
+  warning: yellow
+  danger: warm-red
+  light: white
+  dark: gray

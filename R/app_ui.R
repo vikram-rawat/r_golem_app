@@ -1,11 +1,48 @@
+# call brand yaml file
+#' Get the application theme
+#' @description A function to get the application theme from the brand yaml file.
+#' @import bslib brand.yml
+#' @return a bslib theme object
+#' @export
+get_brand_theme <- function() {
+  # system.file looks into the installed 'inst' folder automatically
+  brand_path <- system.file(
+    "_brand.yml",
+    package = "golem_shiny"
+  )
+
+  # Error handling to help you debug
+  if (brand_path == "") {
+    stop("Could not find _brand.yml in the package inst/ folder.")
+  }
+
+  bslib::bs_theme(
+    version = 5,
+    brand = brand_path
+  )
+}
+
 #' The application User-Interface
 #'
 #' @param request Internal parameter for `{shiny}`.
 #'     DO NOT REMOVE.
-#' @import shiny
+#' @import shiny bslib brand.yml
 #' @noRd
 app_ui <- function(request) {
-  # UI Code here
+  bslib::page_navbar(
+    title = "CRUD App",
+    theme = get_brand_theme(),
+
+    bslib::nav_spacer(),
+
+    mod_reports_ui("rep"),
+    nav_item(
+      input_dark_mode(
+        id = "dark_mode",
+        mode = "light"
+      )
+    )
+  )
 }
 
 #' Add external Resources to the Application
