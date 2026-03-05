@@ -1,8 +1,25 @@
-#' DuckDB Manager Class
-#' This R6 class provides a simple interface for managing a DuckDB connection
-#' and executing queries. It includes methods for connecting to the database,
-#' checking the connection status, executing SQL queries, and disconnecting
-#' from the database.
+#' DuckDB Manager R6 Class
+#'
+#' An R6 class to manage DuckDB connections, queries, and disconnection.
+#' Provides a lightweight interface for connecting to a DuckDB database,
+#' executing SQL queries, and closing the connection.
+#'
+#' @examples
+#' \dontrun{
+#' # Create a new manager for an in-memory DuckDB
+#' dbm <- duckdb_mng$new(":memory:")
+#'
+#' # Connect to the database
+#' dbm$db_connect()
+#'
+#' # Run a query
+#' result <- dbm$db_get_query("SELECT 42 AS answer")
+#' print(result)
+#'
+#' # Disconnect
+#' dbm$db_disconnect()
+#' }
+#'
 #' @import R6
 #' @import DBI
 #' @import duckdb
@@ -13,15 +30,29 @@ duckdb_mng <- R6::R6Class(
 
   public = list(
     # Properties
+    #' The file path to the DuckDB database. Defaults to ":memory:" for an in-memory database.
+    #' The active DBI connection object. Initially NULL until a connection is established.
     db_path = NULL,
     connection = NULL,
 
     # Constructor
+    #' Initialize the DuckDB manager with an optional database path.
+    #' @param db_path The file path to the DuckDB database. Defaults to ":memory"
+    #' for an in-memory database. You can specify a file path to use a persistent database.
+    #' Example usage:
+    #'   dbm <- duckdb_mng$new(
+    #'            db_path = "my_database.duck
+    #'            db"
+    #'  )
+    #'
     initialize = function(db_path = ":memory:") {
       self$db_path <- db_path
     },
 
     # Print method
+    #' @description
+    #' Print a summary of the DuckDB manager object.
+    #' Shows database path and connection status.
     print = function(...) {
       cat("DuckDBManager\n")
       cat("  Database:", self$db_path, "\n")
@@ -30,6 +61,9 @@ duckdb_mng <- R6::R6Class(
     },
 
     # Connect to DB
+    #' @description
+    #' Establish a connection to the DuckDB database.
+    #' @return The manager object (invisible).
     db_connect = function() {
       tryCatch(
         {
@@ -48,11 +82,21 @@ duckdb_mng <- R6::R6Class(
     },
 
     # Check connection
+    #' @description
+    #' Check if the connection is active and valid.
+    #' @return Logical value indicating connection status.
+
     is_connected = function() {
       !is.null(self$connection) && DBI::dbIsValid(self$connection)
     },
 
     # Execute query
+    #' @description
+    #' Execute a SQL query on the connected DuckDB database.
+    #' @param sql_query SQL query string.
+    #' @param ... Additional arguments passed to `DBI::dbGetQuery`.
+    #' @return A `data.table` containing the query results.
+
     db_get_query = function(sql_query, ...) {
       if (!self$is_connected()) {
         stop("No active connection. Call db_connect() first.")
@@ -62,6 +106,11 @@ duckdb_mng <- R6::R6Class(
     },
 
     # Disconnect
+    #' @description
+    #' Disconnect from the DuckDB database.
+    #' Cleans up the connection and shuts down DuckDB.
+    #' @return The manager object (invisible).
+
     db_disconnect = function() {
       if (self$is_connected()) {
         DBI::dbDisconnect(self$connection, shutdown = TRUE)

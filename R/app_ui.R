@@ -63,7 +63,7 @@ golem_add_external_resources <- function() {
     favicon(),
     bundle_resources(
       path = app_sys("app/www"),
-      app_title = "atorus.takehome"
+      app_title = "golem_shiny"
     )
     # Add here other external resources
     # for example, you can add shinyalert::useShinyalert()

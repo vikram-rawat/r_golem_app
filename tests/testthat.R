@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/articles/special-files.html
 
 library(testthat)
-library(atorus.takehome)
+library(golem_shiny)
 
-test_check("atorus.takehome")
+test_check("golem_shiny")
