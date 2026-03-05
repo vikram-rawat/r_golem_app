@@ -1,8 +1,8 @@
-DataStore <- R6Class(
+DataStore <- R6::R6Class(
   "DataStore",
   public = list(
-    con = NULL,      # duckdb connection object (DBI connection)
-    data = NULL,     # working data frame currently in use
+    con = NULL, # duckdb connection object (DBI connection)
+    data = NULL, # working data frame currently in use
     original = NULL, # original baseline snapshot of the data
 
     initialize = function() {
