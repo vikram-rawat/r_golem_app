@@ -1,14 +1,17 @@
-Package: atorus.takehome
-Title: atorus.takehome
+Package: golem_shiny
+Title: golem_shiny
 Version: 0.0.0.9000
-Authors@R: 
-    person("AUTHOR_FIRST", "AUTHOR_LAST", , "AUTHOR@MAIL.COM", role = c("aut", "cre"))
+Authors@R:
+    person("VIKRAM", "RAWAT", , "vikramrawat18@gmail.COM", role = c("aut", "cre"))
 Description: A lightweight table viewer package.
 License: MIT + file LICENSE
 Imports: 
     config,
     golem,
     pkgload,
+    R6,
+    checkmate,
+    data.table,
     shiny
 Suggests: 
     testthat (>= 3.0.0)
