@@ -2,10 +2,18 @@
 #'
 #' @param request Internal parameter for `{shiny}`.
 #'     DO NOT REMOVE.
-#' @import shiny
+#' @import shiny bslib
 #' @noRd
 app_ui <- function(request) {
-  # UI Code here
+  page_navbar(
+    title = "SKU management System",
+    theme = app_theme,
+
+    nav_spacer(),
+
+    mod_reports_ui(ns("rep")),
+    nav_icon_ui(ns("nav_icon"))
+  )
 }
 
 #' Add external Resources to the Application
