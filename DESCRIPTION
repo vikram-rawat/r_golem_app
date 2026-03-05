@@ -12,6 +12,7 @@ Imports:
     R6,
     checkmate,
     data.table,
+    brand.yml,
     shiny
 Suggests: 
     testthat (>= 3.0.0)
