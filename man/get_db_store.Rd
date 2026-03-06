@@ -12,8 +12,11 @@ get_db_store(
 )
 }
 \arguments{
-\item{db_path}{The file path to the DuckDB database. Defaults to the bundled
-mtcars.duckdb file in the package's extdata directory.}
+\item{package}{The package name containing the DuckDB database file.}
+
+\item{folder}{The folder within the package where the DuckDB database file is located.}
+
+\item{filename}{The name of the DuckDB database file.}
 }
 \value{
 An instance of the duckdb_mng class, connected to the specified database
