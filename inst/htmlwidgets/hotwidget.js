@@ -1,28 +1,39 @@
 HTMLWidgets.widget({
-
   name: 'hotwidget',
-
   type: 'output',
 
-  factory: function(el, width, height) {
-
-    // TODO: define shared variables for this instance
+  factory: function (el, width, height) {
+    let container;
 
     return {
+      renderValue: function (x) {
+        // Create container div
+        container = document.createElement('div');
+        container.id = 'handsontable-' + Math.floor(Math.random() * 1000000);
+        el.appendChild(container);
 
-      renderValue: function(x) {
+        // Initialize Handsontable
+        const hot = new Handsontable(container, {
+          data: x.data,
+          rowHeaders: true,
+          colHeaders: x.colHeaders || true,
+          height: 'auto',
+          licenseKey: 'non-commercial-and-evaluation',
+          // Add more options as needed
+          contextMenu: true,
+          manualRowResize: true,
+          manualColumnResize: true,
+        });
 
-        // TODO: code to render the widget, e.g.
-        el.innerText = x.message;
-
+        // Store reference for later access
+        el.hot = hot;
       },
 
-      resize: function(width, height) {
-
-        // TODO: code to re-render the widget with a new size
-
-      }
-
+      resize: function (width, height) {
+        if (el.hot) {
+          el.hot.render();
+        }
+      },
     };
-  }
+  },
 });

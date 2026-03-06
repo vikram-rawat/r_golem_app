@@ -4,7 +4,13 @@
 \alias{hotwidget}
 \title{<Add Title>}
 \usage{
-hotwidget(message, width = NULL, height = NULL, elementId = NULL)
+hotwidget(
+  data,
+  colHeaders = NULL,
+  width = NULL,
+  height = NULL,
+  elementId = NULL
+)
 }
 \description{
 <Add Description>

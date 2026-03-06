@@ -5,13 +5,19 @@
 #' @import htmlwidgets
 #'
 #' @export
-hotwidget <- function(message, width = NULL, height = NULL, elementId = NULL) {
-  # forward options using x
+hotwidget <- function(
+  data,
+  colHeaders = NULL,
+  width = NULL,
+  height = NULL,
+  elementId = NULL
+) {
+  # Convert data frame to list format for Handsontable
   x = list(
-    message = message
+    data = data,
+    colHeaders = colHeaders %||% names(data)
   )
 
-  # create widget
   htmlwidgets::createWidget(
     name = 'hotwidget',
     x,
