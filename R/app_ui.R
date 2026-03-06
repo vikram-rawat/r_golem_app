@@ -36,7 +36,7 @@ app_ui <- function(request) {
 
     bslib::nav_spacer(),
 
-    mod_reports_ui("rep"),
+    mod_table_ui("rep"),
     nav_item(
       input_dark_mode(
         id = "dark_mode",

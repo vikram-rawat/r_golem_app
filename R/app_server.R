@@ -24,5 +24,5 @@ app_server <- function(input, output, session) {
 
   store <- data_store$new(session$userData$duckdb_mng)
 
-  mod_reports_server("rep")
+  mod_table_server("rep")
 }
