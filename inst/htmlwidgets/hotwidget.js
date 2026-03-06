@@ -4,13 +4,20 @@ HTMLWidgets.widget({
 
   factory: function (el, width, height) {
     let container;
+    let colHeaders;
 
     return {
       renderValue: function (x) {
+        // Clear previous content
+        el.innerHTML = '';
+
         // Create container div
         container = document.createElement('div');
         container.id = 'handsontable-' + Math.floor(Math.random() * 1000000);
         el.appendChild(container);
+
+        // Store column headers for later use
+        colHeaders = x.colHeaders || [];
 
         // Convert R data frame (column-oriented) to 2D array (row-oriented)
         let tableData = [];
@@ -31,13 +38,39 @@ HTMLWidgets.widget({
         const hot = new Handsontable(container, {
           data: tableData,
           rowHeaders: true,
-          colHeaders: x.colHeaders || true,
+          colHeaders: colHeaders || true,
           height: 'auto',
           licenseKey: 'non-commercial-and-evaluation',
-          // Add more options as needed
           contextMenu: true,
           manualRowResize: true,
           manualColumnResize: true,
+          afterChange: function (changes, source) {
+            if (source === 'loadData') {
+              return; // Don't send event when loading data
+            }
+
+            // Send only the change details (row, col, value) back to Shiny
+            if (typeof Shiny !== 'undefined' && changes) {
+              changes.forEach(function (change) {
+                const row = change[0] + 1; // Convert to 1-based index for R
+                const col = colHeaders[change[1]]; // Get column name
+                const value = change[3]; // newValue
+
+                setTimeout(function () {
+                  Shiny.setInputValue(
+                    el.id + '_cell_change',
+                    {
+                      row: row,
+                      col: col,
+                      value: value,
+                      timestamp: Date.now(),
+                    },
+                    { priority: 'event' },
+                  );
+                }, 100);
+              });
+            }
+          },
         });
 
         // Store reference for later access
