@@ -25,7 +25,7 @@ mod_table_server <- function(id, data_store) {
   moduleServer(id, function(input, output, session) {
     output$table <- renderHotwidget({
       # Get data from data_store and pass to hotwidget
-      work_dt <- data_store$work_dt
+      work_dt <- data_store$work_dt[, -"uuid"]
       hotwidget(data = work_dt, colHeaders = names(work_dt))
     })
   })
