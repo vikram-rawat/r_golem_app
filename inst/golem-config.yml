@@ -1,7 +1,11 @@
 default:
-  golem_name: atorus.takehome
+  golem_name: golem_shiny
   golem_version: 0.0.0.9000
   app_prod: no
+  database_path:
+    package: 'golem_shiny'
+    folder: 'extdata'
+    filename: 'mtcars.duckdb'
 production:
   app_prod: yes
 dev:

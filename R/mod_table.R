@@ -1,7 +1,7 @@
 #' reports UI Function
 #' @description A shiny Module.
 #' @param id: a random chr string
-mod_reports_ui <- function(id) {
+mod_table_ui <- function(id) {
   ns <- NS(id)
   nav_panel(
     tagList(icon("file-alt"), "DataSet"),
@@ -18,7 +18,7 @@ mod_reports_ui <- function(id) {
 #' reports Server Function
 #' @description A shiny Module.
 #' @param id: a random chr string but similar to ui module id
-mod_reports_server <- function(id) {
+mod_table_server <- function(id, data_store) {
   moduleServer(id, function(input, output, session) {
     # Add server logic here
   })

@@ -5,7 +5,7 @@ Authors@R:
     person("VIKRAM", "RAWAT", , "vikramrawat18@gmail.COM", role = c("aut", "cre"))
 Description: A lightweight table viewer package.
 License: MIT + file LICENSE
-Imports: 
+Depends: 
     config,
     golem,
     pkgload,
@@ -14,7 +14,7 @@ Imports:
     data.table,
     brand.yml,
     shiny
-Suggests: 
+Suggests:
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Encoding: UTF-8

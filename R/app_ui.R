@@ -1,6 +1,7 @@
 # call brand yaml file
 #' Get the application theme
-#' @description A function to get the application theme from the brand yaml file.
+#' @description A function to get the application theme
+#' from the brand yaml file.
 #' @import bslib brand.yml
 #' @return a bslib theme object
 #' @export
@@ -13,7 +14,7 @@ get_brand_theme <- function() {
 
   # Error handling to help you debug
   if (brand_path == "") {
-    stop("Could not find _brand.yml in the package inst/ folder.")
+    stop("-- Could not find _brand.yml. --")
   }
 
   bslib::bs_theme(
@@ -35,7 +36,7 @@ app_ui <- function(request) {
 
     bslib::nav_spacer(),
 
-    mod_reports_ui("rep"),
+    mod_table_ui("rep"),
     nav_item(
       input_dark_mode(
         id = "dark_mode",
@@ -63,7 +64,7 @@ golem_add_external_resources <- function() {
     favicon(),
     bundle_resources(
       path = app_sys("app/www"),
-      app_title = "atorus.takehome"
+      app_title = "golem_shiny"
     )
     # Add here other external resources
     # for example, you can add shinyalert::useShinyalert()

@@ -6,17 +6,23 @@
 #' @noRd
 app_server <- function(input, output, session) {
   # Your application server logic
-  store <- DataStore$new()
+  db_path <- get_golem_config("database_path")
 
   session$onSessionEnded(
     function() {
-      # session$userData$sqlite_db |>
-      #   db_disconnect()
+      session$userData$duckdb_mng$db_disconnect()
     }
   )
 
-  # session$userData$sqlite_db <- sqlite_mng(global_configs$main_db_path) |>
-  #   db_connect()
+  session$userData$duckdb_mng <- get_db_store(
+    package = db_path$package,
+    folder = db_path$folder,
+    filename = db_path$filename
+  )
 
-  mod_reports_server("rep")
+  session$userData$duckdb_mng$db_connect()
+
+  app_dt_store <- data_store$new(session$userData$duckdb_mng)
+
+  mod_table_server("rep", data_store = app_dt_store)
 }

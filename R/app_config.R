@@ -9,7 +9,7 @@
 #'
 #' @noRd
 app_sys <- function(...) {
-  system.file(..., package = "atorus.takehome")
+  system.file(..., package = "golem_shiny")
 }
 
 

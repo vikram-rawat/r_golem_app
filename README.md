@@ -46,6 +46,7 @@ www/
 ```
 
 ## 🧩 Core Tasks
+
 ✅ Task 1: Complete the R6 DataStore
 
 File: R/DataStore.R
@@ -54,7 +55,7 @@ Implement the following in initialize():
 
 Locate bundled database
 
-`system.file("extdata", "mtcars.duckdb", package = "atorus.takehome")`
+`system.file("extdata", "mtcars.duckdb", package = "golem_shiny")`
 
 Connect to DuckDB
 
@@ -80,7 +81,7 @@ The DataStore object is created once in the main app and passed into the table m
 
 File: R/mod_table.R
 
-The module must return a UI with only the widget output, 
+The module must return a UI with only the widget output,
 and output the table and data back to the main server
 
 ### Candidate responsibilities for the module:

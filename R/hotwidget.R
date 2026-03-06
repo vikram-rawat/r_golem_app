@@ -6,7 +6,6 @@
 #'
 #' @export
 hotwidget <- function(message, width = NULL, height = NULL, elementId = NULL) {
-
   # forward options using x
   x = list(
     message = message
@@ -18,7 +17,7 @@ hotwidget <- function(message, width = NULL, height = NULL, elementId = NULL) {
     x,
     width = width,
     height = height,
-    package = 'atorus.takehome',
+    package = 'golem_shiny',
     elementId = elementId
   )
 }
@@ -40,13 +39,21 @@ hotwidget <- function(message, width = NULL, height = NULL, elementId = NULL) {
 #' @name hotwidget-shiny
 #'
 #' @export
-hotwidgetOutput <- function(outputId, width = '100%', height = '400px'){
-  htmlwidgets::shinyWidgetOutput(outputId, 'hotwidget', width, height, package = 'atorus.takehome')
+hotwidgetOutput <- function(outputId, width = '100%', height = '400px') {
+  htmlwidgets::shinyWidgetOutput(
+    outputId,
+    'hotwidget',
+    width,
+    height,
+    package = 'golem_shiny'
+  )
 }
 
 #' @rdname hotwidget-shiny
 #' @export
 renderHotwidget <- function(expr, env = parent.frame(), quoted = FALSE) {
-  if (!quoted) { expr <- substitute(expr) } # force quoted
+  if (!quoted) {
+    expr <- substitute(expr)
+  } # force quoted
   htmlwidgets::shinyRenderWidget(expr, hotwidgetOutput, env, quoted = TRUE)
 }
