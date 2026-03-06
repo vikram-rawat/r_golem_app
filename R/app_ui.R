@@ -1,6 +1,7 @@
 # call brand yaml file
 #' Get the application theme
-#' @description A function to get the application theme from the brand yaml file.
+#' @description A function to get the application theme
+#' from the brand yaml file.
 #' @import bslib brand.yml
 #' @return a bslib theme object
 #' @export
@@ -13,7 +14,7 @@ get_brand_theme <- function() {
 
   # Error handling to help you debug
   if (brand_path == "") {
-    stop("Could not find _brand.yml in the package inst/ folder.")
+    stop("-- Could not find _brand.yml. --")
   }
 
   bslib::bs_theme(

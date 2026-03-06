@@ -10,5 +10,6 @@ get_brand_theme()
 a bslib theme object
 }
 \description{
-A function to get the application theme from the brand yaml file.
+A function to get the application theme
+from the brand yaml file.
 }

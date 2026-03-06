@@ -1,18 +1,12 @@
 DataStore <- R6::R6Class(
   "DataStore",
   public = list(
-    con = NULL, # duckdb connection object (DBI connection)
+    db_mng = NULL, # duckdb manager object
     data = NULL, # working data frame currently in use
     original = NULL, # original baseline snapshot of the data
 
-    initialize = function() {
-      # TASK FOR CANDIDATE:
-      # --------------------
-      # 1. Locate the bundled DuckDB file located in inst/extdata/
-      #    Use: system.file("extdata", "mtcars.duckdb", package = "<your-package>")
-      #
-      # 2. Establish a DuckDB connection using DBI::dbConnect()
-      #    (store the connection in self$con)
+    initialize = function(db_mng) {
+      self$db_mng <- db_mng
       #
       # 3. Query the "mtcars" table from the database
       #    using DBI::dbGetQuery()

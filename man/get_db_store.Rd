@@ -6,7 +6,9 @@
 A helper function to create and return an instance of the DuckDB manager class.}
 \usage{
 get_db_store(
-  db_path = system.file("extdata", "mtcars.duckdb", package = "golem_shiny")
+  package = "golem_shiny",
+  folder = "extdata",
+  filename = "mtcars.duckdb"
 )
 }
 \arguments{
