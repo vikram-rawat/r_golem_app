@@ -48,15 +48,21 @@ mod_table_ui <- function(id) {
 #' @param id: a random chr string but similar to ui module id
 mod_table_server <- function(id, data_store) {
   moduleServer(id, function(input, output, session) {
+    mod_store <- reactiveValues(
+      update_dt = 1
+    )
+
     # Render the table
     output$table <- renderHotwidget({
-      # Get data from data_store and pass to hotwidget
-      work_dt <- data_store$work_dt[, -"uuid"]
-      hotwidget(data = work_dt, colHeaders = names(work_dt))
+      req(mod_store$update_dt) # Trigger re-render when update_dt changes
+      hotwidget(
+        data = data_store$work_dt[, -"uuid"],
+        colHeaders = names(data_store$work_dt[, -"uuid"])
+      )
     })
 
     # Listen for cell changes from hotwidget
-    observeEvent(input$table_cell_change, {
+    observe({
       # Extract row, column, and value from the change event
       row <- input$table_cell_change$row
       col <- input$table_cell_change$col
@@ -65,6 +71,20 @@ mod_table_server <- function(id, data_store) {
       # Update the data store using the update_cell method
       data_store$update_cell(row, col, value)
       data_store$work_dt
-    })
+    }) |>
+      bindEvent(input$table_cell_change)
+
+    # Listen for reset button click
+    observe({
+      data_store$revert()
+      mod_store$update_dt <- mod_store$update_dt + 1
+    }) |>
+      bindEvent(input$reset_btn)
+
+    # Listen for Save button click
+    observe({
+      data_store$write_db()
+    }) |>
+      bindEvent(input$save_btn)
   })
 }
