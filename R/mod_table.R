@@ -11,14 +11,13 @@ mod_table_ui <- function(id) {
         width = 1,
         h1("MTCars DataSet"),
         h6("interactive data table with real-time editing"),
-        layout_columns(
-          width = c(-2, 12, -2),
+        div(
+          class = "d-flex justify-content-between",
           actionButton(
             inputId = ns("save_btn"),
             label = "Save Changes",
             icon = icon("save")
           ),
-          div(""),
           actionButton(
             inputId = ns("reset_btn"),
             label = "Reset Changes",
