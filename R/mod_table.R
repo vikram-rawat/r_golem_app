@@ -84,6 +84,12 @@ mod_table_server <- function(id, data_store) {
     # Listen for Save button click
     observe({
       data_store$save_table()
+      # Call showNotification to display the message
+      showNotification(
+        "MTCars table updated successfully!",
+        type = "message",
+        duration = 5
+      )
     }) |>
       bindEvent(input$save_btn)
   })
