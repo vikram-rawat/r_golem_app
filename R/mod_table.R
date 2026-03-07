@@ -5,12 +5,38 @@ mod_table_ui <- function(id) {
   ns <- NS(id)
   nav_panel(
     tagList(icon("file-alt"), "DataSet"),
-    layout_column_wrap(
-      width = 1,
-      card(
-        card_header("DataSet Module"),
-        card_body(
-          hotwidgetOutput(ns("table"))
+    div(
+      class = "container-md",
+      layout_column_wrap(
+        width = 1,
+        h1("MTCars DataSet"),
+        h6("interactive data table with real-time editing"),
+        layout_columns(
+          width = c(-2, 12, -2),
+          actionButton(
+            inputId = ns("save_btn"),
+            label = "Save Changes",
+            icon = icon("save")
+          ),
+          div(""),
+          actionButton(
+            inputId = ns("reset_btn"),
+            label = "Reset Changes",
+            icon = icon("undo")
+          )
+        )
+      ),
+      layout_columns(
+        col_widths = c(9, 3),
+        card(
+          card_header("DataSet"),
+          card_body(
+            hotwidgetOutput(ns("table"))
+          )
+        ),
+        card(
+          card_header("Summary"),
+          "nothing"
         )
       )
     )
