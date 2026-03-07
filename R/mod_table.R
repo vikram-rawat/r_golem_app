@@ -1,6 +1,7 @@
 #' reports UI Function
 #' @description A shiny Module.
 #' @param id: a random chr string
+#' @import bsicons
 mod_table_ui <- function(id) {
   ns <- NS(id)
   nav_panel(
@@ -28,7 +29,7 @@ mod_table_ui <- function(id) {
         )
       ),
       layout_columns(
-        col_widths = c(9, 3),
+        col_widths = c(8, 4),
         card(
           card_header("DataSet"),
           card_body(
@@ -37,7 +38,12 @@ mod_table_ui <- function(id) {
         ),
         card(
           card_header("Summary"),
-          "nothing"
+          layout_column_wrap(
+            width = 1,
+            heights_equal = "all",
+            max_height = "5rem",
+            uiOutput(ns("sm_records"))
+          )
         )
       )
     )
@@ -60,6 +66,15 @@ mod_table_server <- function(id, data_store) {
       hotwidget(
         data = data_store$work_dt[, -"uuid"],
         colHeaders = names(data_store$work_dt[, -"uuid"])
+      )
+    })
+
+    output$sm_records <- renderUI({
+      value_box(
+        title = "Customer lifetime value",
+        value = "$5,000",
+        showcase = bsicons::bs_icon("bank2"),
+        theme = "primary"
       )
     })
 
