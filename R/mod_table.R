@@ -15,11 +15,13 @@ mod_table_ui <- function(id) {
           class = "d-flex justify-content-between",
           actionButton(
             inputId = ns("save_btn"),
+            class = "btn-outline-warning",
             label = "Save Changes",
             icon = icon("save")
           ),
           actionButton(
             inputId = ns("reset_btn"),
+            class = "btn-outline-primary",
             label = "Reset Changes",
             icon = icon("undo")
           )
