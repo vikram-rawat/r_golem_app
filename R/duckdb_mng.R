@@ -107,6 +107,26 @@ duckdb_mng <- R6::R6Class(
       DBI::dbGetQuery(self$connection, sql_query, ...) |>
         data.table::as.data.table()
     },
+    #' Write Table
+    #' @description
+    #' Write a data frame or data table to the DuckDB database as a new table.
+    #' @param dt A data frame or data table to write to the database.
+    #' @param table_name The name of the table to create in the database.
+    #' @return The manager object (invisible).
+    db_write_table = function(dt, table_name) {
+      if (!self$is_connected()) {
+        stop("No active connection. Call db_connect() first.")
+      }
+      DBI::dbWriteTable(
+        conn = self$connection,
+        name = table_name,
+        value = dt,
+        overwrite = TRUE
+      )
+
+      message("Table '", table_name, "' written to DuckDB.")
+      invisible(self)
+    },
 
     # Disconnect
     #' @description

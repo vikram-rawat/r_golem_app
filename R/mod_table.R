@@ -83,7 +83,7 @@ mod_table_server <- function(id, data_store) {
 
     # Listen for Save button click
     observe({
-      data_store$write_db()
+      data_store$save_table()
     }) |>
       bindEvent(input$save_btn)
   })

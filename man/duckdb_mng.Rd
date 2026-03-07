@@ -50,6 +50,7 @@ Initialize the DuckDB manager with an optional database path.}
 \item \href{#method-duckdb_mng-db_connect}{\code{duckdb_mng$db_connect()}}
 \item \href{#method-duckdb_mng-is_connected}{\code{duckdb_mng$is_connected()}}
 \item \href{#method-duckdb_mng-db_get_query}{\code{duckdb_mng$db_get_query()}}
+\item \href{#method-duckdb_mng-db_write_table}{\code{duckdb_mng$db_write_table()}}
 \item \href{#method-duckdb_mng-db_disconnect}{\code{duckdb_mng$db_disconnect()}}
 \item \href{#method-duckdb_mng-clone}{\code{duckdb_mng$clone()}}
 }
@@ -141,6 +142,29 @@ Execute a SQL query on the connected DuckDB database.
 }
 \subsection{Returns}{
 A `data.table` containing the query results.
+Write Table
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-duckdb_mng-db_write_table"></a>}}
+\if{latex}{\out{\hypertarget{method-duckdb_mng-db_write_table}{}}}
+\subsection{Method \code{db_write_table()}}{
+Write a data frame or data table to the DuckDB database as a new table.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{duckdb_mng$db_write_table(dt, table_name)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{dt}}{A data frame or data table to write to the database.}
+
+\item{\code{table_name}}{The name of the table to create in the database.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+The manager object (invisible).
 }
 }
 \if{html}{\out{<hr>}}
