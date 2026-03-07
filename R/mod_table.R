@@ -80,6 +80,12 @@ mod_table_server <- function(id, data_store) {
     observe({
       data_store$revert()
       mod_store$update_dt <- mod_store$update_dt + 1
+      # Call showNotification to display the message
+      showNotification(
+        "MTCars table reverted to original state successfully!",
+        type = "message",
+        duration = 5
+      )
     }) |>
       bindEvent(input$reset_btn)
 
