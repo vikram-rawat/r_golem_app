@@ -37,8 +37,12 @@ HTMLWidgets.widget({
         // Initialize Handsontable
         const hot = new Handsontable(container, {
           data: tableData,
-          rowHeaders: true,
+          rowHeaders: false,
           colHeaders: colHeaders || true,
+          colWidths: function (col) {
+            // Make first column (cars) wider, others default
+            return col === 0 ? 250 : undefined;
+          },
           height: 'auto',
           licenseKey: 'non-commercial-and-evaluation',
           contextMenu: true,
