@@ -42,7 +42,12 @@ mod_table_ui <- function(id) {
             width = 1,
             heights_equal = "all",
             max_height = "5rem",
-            uiOutput(ns("sm_records"))
+            value_box(
+              title = "Dataset Summary",
+              value = textOutput(ns("sm_records")),
+              showcase = bsicons::bs_icon("car-front-fill"),
+              theme = "primary"
+            )
           )
         )
       )
@@ -69,12 +74,11 @@ mod_table_server <- function(id, data_store) {
       )
     })
 
-    output$sm_records <- renderUI({
-      value_box(
-        title = "Customer lifetime value",
-        value = "$5,000",
-        showcase = bsicons::bs_icon("bank2"),
-        theme = "primary"
+    output$sm_records <- renderText({
+      sprintf(
+        fmt = "%d Rows & %d columns",
+        nrow(data_store$work_dt),
+        ncol(data_store$work_dt)
       )
     })
 

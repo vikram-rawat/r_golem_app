@@ -100,6 +100,7 @@ data_store <- R6::R6Class(
     #' @return No return value, called for side effects.
     save_table = function() {
       self$db_mng$db_write_table(self$work_dt, "mtcars")
+      self$original_dt <- copy(self$work_dt)
     },
 
     #' @description
