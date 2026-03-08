@@ -41,12 +41,35 @@ mod_table_ui <- function(id) {
           layout_column_wrap(
             width = 1,
             heights_equal = "all",
-            max_height = "5rem",
             value_box(
               title = "Dataset Summary",
               value = textOutput(ns("sm_records")),
               showcase = bsicons::bs_icon("car-front-fill"),
               theme = "primary"
+            ),
+            value_box(
+              title = "Avg. Fuel Efficiency (MPG)",
+              value = textOutput(ns("sm_mpg")),
+              showcase = icon("tachometer-alt"),
+              theme_color = "primary"
+            ),
+            value_box(
+              title = "Most Common Cylinders",
+              value = names(which.max(table(mtcars$cyl))),
+              showcase = icon("cogs"),
+              theme_color = "primary"
+            ),
+            value_box(
+              title = "Top Horsepower",
+              value = textOutput(ns("sm_hp")),
+              showcase = icon("bolt"),
+              theme_color = "primary"
+            ),
+            value_box(
+              title = "Avg. Weight (1000 lbs)",
+              value = textOutput(ns("sm_wt")),
+              showcase = icon("weight"),
+              theme_color = "primary"
             )
           )
         )
@@ -62,12 +85,14 @@ mod_table_ui <- function(id) {
 mod_table_server <- function(id, data_store) {
   moduleServer(id, function(input, output, session) {
     mod_store <- reactiveValues(
-      update_dt = 1
+      update_dt = 1,
+      store_dt = 1
     )
 
     # Render the table
     output$table <- renderHotwidget({
       req(mod_store$update_dt) # Trigger re-render when update_dt changes
+      req(mod_store$store_dt) # Trigger re-render when store_dt changes
       hotwidget(
         data = data_store$work_dt[, -"uuid"],
         colHeaders = names(data_store$work_dt[, -"uuid"])
@@ -75,10 +100,46 @@ mod_table_server <- function(id, data_store) {
     })
 
     output$sm_records <- renderText({
+      req(mod_store$update_dt) # Trigger re-render when update_dt changes
+      req(mod_store$store_dt) # Trigger re-render when store_dt changes
       sprintf(
         fmt = "%d Rows & %d columns",
         nrow(data_store$work_dt),
         ncol(data_store$work_dt)
+      )
+    })
+
+    output$sm_mpg <- renderText({
+      req(mod_store$update_dt) # Trigger re-render when update_dt changes
+      req(mod_store$store_dt) # Trigger re-render when store_dt changes
+      sprintf(
+        fmt = "%.2f MPG",
+        data_store$work_dt$mpg |>
+          mean() |>
+          round(2)
+      )
+    })
+
+    output$sm_hp <- renderText({
+      req(mod_store$update_dt) # Trigger re-render when update_dt changes
+      req(mod_store$store_dt) # Trigger re-render when store_dt changes
+
+      sprintf(
+        fmt = "%d HP",
+        data_store$work_dt$hp |>
+          max()
+      )
+    })
+
+    output$sm_wt <- renderText({
+      req(mod_store$update_dt) # Trigger re-render when update_dt changes
+      req(mod_store$store_dt) # Trigger re-render when store_dt changes
+
+      sprintf(
+        fmt = "%.2f (1000 lbs)",
+        data_store$work_dt$wt |>
+          mean() |>
+          round(2)
       )
     })
 
@@ -92,13 +153,14 @@ mod_table_server <- function(id, data_store) {
       # Update the data store using the update_cell method
       data_store$update_cell(row, col, value)
       data_store$work_dt
+      mod_store$update_dt <- mod_store$update_dt + 1
     }) |>
       bindEvent(input$table_cell_change)
 
     # Listen for reset button click
     observe({
       data_store$revert()
-      mod_store$update_dt <- mod_store$update_dt + 1
+      mod_store$store_dt <- mod_store$store_dt + 1
       # Call showNotification to display the message
       showNotification(
         "MTCars table reverted to original state successfully!",
