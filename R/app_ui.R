@@ -30,17 +30,23 @@ get_brand_theme <- function() {
 #' @import shiny bslib brand.yml
 #' @noRd
 app_ui <- function(request) {
-  bslib::page_navbar(
-    title = "CRUD App",
-    theme = get_brand_theme(),
+  tagList(
+    # add resources
+    golem_add_external_resources(),
 
-    bslib::nav_spacer(),
+    # application UI logic
+    bslib::page_navbar(
+      title = "CRUD App",
+      theme = get_brand_theme(),
 
-    mod_table_ui("rep"),
-    nav_item(
-      input_dark_mode(
-        id = "dark_mode",
-        mode = "light"
+      bslib::nav_spacer(),
+
+      mod_table_ui("rep"),
+      nav_item(
+        input_dark_mode(
+          id = "dark_mode",
+          mode = "light"
+        )
       )
     )
   )
@@ -66,7 +72,5 @@ golem_add_external_resources <- function() {
       path = app_sys("app/www"),
       app_title = "golem_shiny"
     )
-    # Add here other external resources
-    # for example, you can add shinyalert::useShinyalert()
   )
 }
