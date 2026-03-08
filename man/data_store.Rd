@@ -60,6 +60,7 @@ reverting changes, and summarizing the dataset.
 \item \href{#method-data_store-new}{\code{data_store$new()}}
 \item \href{#method-data_store-update_cell}{\code{data_store$update_cell()}}
 \item \href{#method-data_store-revert}{\code{data_store$revert()}}
+\item \href{#method-data_store-save_table}{\code{data_store$save_table()}}
 \item \href{#method-data_store-summary}{\code{data_store$summary()}}
 \item \href{#method-data_store-clone}{\code{data_store$clone()}}
 }
@@ -111,6 +112,19 @@ Update a single cell in the working dataset.
 Reset the working dataset back to the original snapshot.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{data_store$revert()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+No return value, called for side effects.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-data_store-save_table"></a>}}
+\if{latex}{\out{\hypertarget{method-data_store-save_table}{}}}
+\subsection{Method \code{save_table()}}{
+Write the current working dataset back to the database.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{data_store$save_table()}\if{html}{\out{</div>}}
 }
 
 \subsection{Returns}{

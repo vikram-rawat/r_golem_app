@@ -96,6 +96,14 @@ data_store <- R6::R6Class(
     },
 
     #' @description
+    #' Write the current working dataset back to the database.
+    #' @return No return value, called for side effects.
+    save_table = function() {
+      self$db_mng$db_write_table(self$work_dt, "mtcars")
+      self$original_dt <- copy(self$work_dt)
+    },
+
+    #' @description
     #' Return a simple summary of the current dataset.
     #' @return A character string with row and column counts,
     #' or "No data loaded" if empty.
