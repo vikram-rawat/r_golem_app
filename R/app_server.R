@@ -29,7 +29,7 @@ app_server <- function(input, output, session) {
             "<p>Something Wrong with Data in Database</p>
              <br>
              <p>
-               <strong>Error:</strong>
+               <strong>Data Validation Error:</strong>
                %s
              </p>",
             e$message

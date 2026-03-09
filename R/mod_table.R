@@ -208,7 +208,9 @@ mod_table_server <- function(id, data_store) {
               sprintf(
                 "<p>Please check the cell value before updating</p>
                 <br>
-                <p><strong>Error:</strong> %s</p>",
+                <p><strong>Data Validation Error:</strong>
+                <br> 
+                %s</p>",
                 e$message
               )
             ),
@@ -241,7 +243,7 @@ mod_table_server <- function(id, data_store) {
           # Call showNotification to display the message
           showNotification(
             "MTCars table updated successfully!",
-            type = "success",
+            type = "message",
             duration = 5
           )
         },
@@ -250,10 +252,11 @@ mod_table_server <- function(id, data_store) {
             HTML(
               sprintf(
                 r"{
-                  <p style="color: red;">Data Validation Failed</p>
+                  <p style="color: red;">Couldn't Save Table</p>
                   <br>
                   <p>
-                    <strong>Error:</strong>
+                    <strong>Data Validation Error:</strong>
+                    <br>
                     %s
                   </p>
                 }",
