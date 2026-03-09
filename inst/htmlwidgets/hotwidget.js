@@ -31,6 +31,7 @@ HTMLWidgets.widget({
             return {
               type: colType,
               data: index,
+              width: 100,
             };
           });
         }
@@ -53,7 +54,20 @@ HTMLWidgets.widget({
         // Initialize Handsontable
         const hot = new Handsontable(container, {
           data: tableData,
-          columns: columns.length > 0 ? columns : undefined,
+          // columns: columns.length > 0 ? columns : undefined,
+          columns: colHeaders.map((header, index) => {
+            const colType = colTypes[index] || 'text';
+            return {
+              type: colType,
+              data: index,
+              className: 'htLeft', // This aligns both cell and header text to the left
+            };
+          }),
+          afterGetColHeader: function (col, TH) {
+            if (TH && typeof col === 'number') {
+              TH.style.textAlign = 'left';
+            }
+          },
           themeName: themeName,
 
           rowHeaders: false,
@@ -62,7 +76,7 @@ HTMLWidgets.widget({
 
           colWidths: function (col) {
             // Make first column (cars) wider, others default
-            return col === 0 ? 180 : undefined;
+            return col === 0 ? 150 : undefined;
           },
           height: 'auto',
           licenseKey: 'non-commercial-and-evaluation',

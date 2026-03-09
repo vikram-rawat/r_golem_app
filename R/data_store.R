@@ -75,6 +75,11 @@ data_store <- R6::R6Class(
         col <- names(self$work_dt)[col]
       }
 
+      if (is.null(value)) {
+        self$work_dt[row, (col) := NA]
+        return()
+      }
+
       target_type <- typeof(self$work_dt[[col]])
       cast_value <- switch(
         target_type,
@@ -84,7 +89,6 @@ data_store <- R6::R6Class(
         "logical" = as.logical(value),
         value
       )
-
       self$work_dt[row, (col) := cast_value]
     },
 
