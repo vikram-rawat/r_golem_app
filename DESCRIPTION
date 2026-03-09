@@ -14,7 +14,11 @@ Depends:
     data.table,
     brand.yml,
     shiny,
-    bsicons
+    bsicons,
+    bslib,
+    htmltools,
+    DBI,
+    duckdb,
 Suggests:
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
