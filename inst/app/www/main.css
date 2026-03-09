@@ -25,3 +25,11 @@ h6 {
 .bslib-value-box .shiny-text-output {
   font-size: 1.3rem !important;
 }
+
+.handsontable th {
+  margin-left: -1rem !important;
+  text-align: left !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}

@@ -31,7 +31,7 @@ HTMLWidgets.widget({
             return {
               type: colType,
               data: index,
-              width: 100,
+              className: 'htLeft',
             };
           });
         }
@@ -63,6 +63,11 @@ HTMLWidgets.widget({
               className: 'htLeft', // This aligns both cell and header text to the left
             };
           }),
+          // autoColumnSize: {
+          //   useHeaders: true, // Ensures header text is considered in sizing
+          // },
+          // wordWrap: true,
+
           afterGetColHeader: function (col, TH) {
             if (TH && typeof col === 'number') {
               TH.style.textAlign = 'left';
@@ -78,7 +83,23 @@ HTMLWidgets.widget({
             // Make first column (cars) wider, others default
             return col === 0 ? 150 : undefined;
           },
+
+          contextMenu: [
+            'cut',
+            'copy',
+            '---------',
+            'row_above',
+            'row_below',
+            'remove_row',
+            '---------',
+            'alignment',
+            'make_read_only',
+            'clear_column',
+          ],
+
           height: 'auto',
+          width: 'auto',
+
           licenseKey: 'non-commercial-and-evaluation',
           contextMenu: true,
           manualRowResize: true,
