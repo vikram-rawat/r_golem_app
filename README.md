@@ -52,6 +52,7 @@ golem_shiny::run_app()
 
 10. **Custom CSS:** I added some custom CSS to the app to make it look better. You can find the CSS file in `inst/app/www/main.css`.
 
-With this I achieved the Goal of creating a Shiny app with a handsontable.js table that can be edited and saved to a duckDB database. The app also has a notification system and a theme switcher.
+With this I achieved the Goal of creating a Shiny app with a handsontable.js table that can be edited and saved to a duckDB database.
+The app also has a notification system and a theme switcher.
 
-Thanks for this wonderful experience.
+Thanks for this wonderful experience. 😊
