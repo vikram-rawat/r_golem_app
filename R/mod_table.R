@@ -7,7 +7,7 @@ mod_table_ui <- function(id) {
   nav_panel(
     tagList(icon("file-alt"), "DataSet"),
     div(
-      class = "container-md",
+      # class = "container-lg",
       layout_column_wrap(
         width = 1,
         h1("MTCars DataSet"),
@@ -29,7 +29,7 @@ mod_table_ui <- function(id) {
         )
       ),
       layout_columns(
-        col_widths = c(8, 4),
+        col_widths = c(9, 3),
         card(
           card_header("DataSet"),
           card_body(

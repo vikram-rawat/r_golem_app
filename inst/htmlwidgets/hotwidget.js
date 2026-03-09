@@ -58,9 +58,11 @@ HTMLWidgets.widget({
 
           rowHeaders: false,
           colHeaders: colHeaders || true,
+          stretchH: 'all',
+
           colWidths: function (col) {
             // Make first column (cars) wider, others default
-            return col === 0 ? 250 : undefined;
+            return col === 0 ? 180 : undefined;
           },
           height: 'auto',
           licenseKey: 'non-commercial-and-evaluation',
