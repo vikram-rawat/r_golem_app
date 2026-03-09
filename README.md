@@ -12,7 +12,19 @@ devtools::load_all()
 golem_shiny::run_app()
 ```
 
-## Accomplishments
+## Functionality
+
+1. The app loads the data from duckDB
+2. It validates the data and shows any errors in the notification system.
+3. The data is displayed in a handsontable.js table.
+4. The user can edit the data in the table and save it to the database.
+5. The user can also reset the data to the original data from the database.
+6. The app also shows a summary of the data which is calculated from the current dataset. Which dynamically updates as the data is edited.
+7. Created a Module to display the table
+8. All DataManagement and State management is done Via R6 classes.
+9. Table has dark and light theme with sorting and filtering capabilities.
+
+## Extra Accomplishments
 
 1. **renv Added:** I added `renv` to the project to manage the dependencies of the project. This will help in keeping the project isolated and reproducible.
 
@@ -39,8 +51,6 @@ golem_shiny::run_app()
 9. **Dark Theme:** I added a dark theme to the app which can be switched from the dropdown in the app. This is default for the app.
 
 10. **Custom CSS:** I added some custom CSS to the app to make it look better. You can find the CSS file in `inst/app/www/main.css`.
-
-11. **SubTasks:** I added Validation, Filtering, Sorting, Formatting and completed the tasks.
 
 With this I achieved the Goal of creating a Shiny app with a handsontable.js table that can be edited and saved to a duckDB database. The app also has a notification system and a theme switcher.
 
