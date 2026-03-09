@@ -58,8 +58,10 @@ data_store <- R6::R6Class(
       ]
       mtcars_tbl[, uuid := paste0(1:.N, "__", uuid)]
 
-      self$original_dt <- mtcars_tbl
-      self$work_dt <- copy(mtcars_tbl)
+      if (self$validate_dataset(mtcars_tbl)) {
+        self$original_dt <- mtcars_tbl
+        self$work_dt <- copy(mtcars_tbl)
+      }
     },
 
     #' @description
@@ -75,11 +77,6 @@ data_store <- R6::R6Class(
         col <- names(self$work_dt)[col]
       }
 
-      if (is.null(value)) {
-        self$work_dt[row, (col) := NA]
-        return()
-      }
-
       target_type <- typeof(self$work_dt[[col]])
       cast_value <- switch(
         target_type,
@@ -89,7 +86,18 @@ data_store <- R6::R6Class(
         "logical" = as.logical(value),
         value
       )
-      self$work_dt[row, (col) := cast_value]
+
+      temp_tbl <- copy(self$work_dt)
+
+      if (is.null(value)) {
+        temp_tbl[row, (col) := NA]
+      } else {
+        temp_tbl[row, (col) := cast_value]
+      }
+
+      if (self$validate_dataset(temp_tbl)) {
+        self$work_dt <- temp_tbl
+      }
     },
 
     #' @description
@@ -105,6 +113,53 @@ data_store <- R6::R6Class(
     save_table = function() {
       self$db_mng$db_write_table(self$work_dt, "mtcars")
       self$original_dt <- copy(self$work_dt)
+    },
+
+    #' @description
+    #' Validate the structure and content of the `mtcars` dataset.
+    #' @param df Data frame to validate
+    #' @return TRUE if validation passes, otherwise throws an error.
+    validate_dataset = function(df) {
+      # Must be a data.frame
+      assert_data_frame(df, min.rows = 1, col.names = "named")
+
+      # Required columns
+      required_cols <- c(
+        "cars",
+        "mpg",
+        "cyl",
+        "disp",
+        "hp",
+        "drat",
+        "wt",
+        "qsec",
+        "vs",
+        "am",
+        "gear",
+        "carb",
+        "uuid"
+      )
+
+      assert_subset(required_cols, colnames(df))
+
+      # character checks
+      assert_character(df$cars, any.missing = FALSE, min.chars = 1)
+      assert_character(df$uuid, any.missing = FALSE, min.chars = 1)
+
+      # Numeric checks
+      assert_numeric(df$mpg, lower = 0, finite = TRUE)
+      assert_numeric(df$cyl, lower = 1, upper = 10, any.missing = FALSE)
+      assert_numeric(df$disp, lower = 0, finite = TRUE)
+      assert_numeric(df$hp, lower = 0, finite = TRUE)
+      assert_numeric(df$drat, lower = 0, finite = TRUE)
+      assert_numeric(df$wt, lower = 0, finite = TRUE)
+      assert_numeric(df$qsec, lower = 0, finite = TRUE)
+      assert_numeric(df$vs, lower = 0, upper = 1, any.missing = FALSE)
+      assert_numeric(df$am, lower = 0, upper = 1, any.missing = FALSE)
+      assert_numeric(df$gear, lower = 1, upper = 10, any.missing = FALSE)
+      assert_numeric(df$carb, lower = 1, upper = 10, any.missing = FALSE)
+
+      return(TRUE)
     },
 
     #' @description
