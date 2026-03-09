@@ -1,145 +1,47 @@
-# 📦 atorus.takehome — Candidate Take-Home Assignment
+# golem_shiny
 
-## Welcome! This assignment evaluates your ability to work with:
+This is just a test app and it might still have a few bugs. Entire project is available on Github [here](https://github.com/vikram-rawat/r_golem_app).
 
-- Shiny modules
-- R6 classes for state & backend data management
-- DuckDB + DBI
-- Custom htmlwidgets (editable table)
-- Golem application structure
+## To run the app
 
-Your goal is to complete a small but functional Shiny application following the scaffold provided.
+For a developer these functions will come in handy:
 
-## 🎯 Your Objective
-
-You must build a working Shiny app that:
-
-- Loads data from a bundled DuckDB database into a DataStore R6 object.
-- Passes the DataStore instance into a Shiny module responsible for rendering and editing the data table.
-- Uses a custom htmlwidget to display and edit the table.
-- Allows the user to revert changes.
-- Displays a summary of the dataset.
-- Implements a minimal UI consistent with the wireframe.
-
-The app architecture looks like this:
-
-```
-app_server()
-  └── store <- DataStore$new()
-  └── mod_table_server("table", store)
-
-📁 Repository Structure
-R/
-  ├── app_server.R
-  ├── app_ui.R
-  ├── DataStore.R          # R6 class (incomplete–you implement)
-  ├── mod_table.R          # Shiny module wrapping the htmlwidget
-inst/
-  ├── extdata/
-  │   └── mtcars.duckdb    # You will connect to this
-  └── htmlwidgets/
-      ├── hotwidget.js
-      ├── hotwidget.yaml
-      └── hotwidget.css
-www/
-  └── wireframe.png
+```r
+devtools::document()
+devtools::load_all()
+golem_shiny::run_app()
 ```
 
-## 🧩 Core Tasks
+## Accomplishments
 
-✅ Task 1: Complete the R6 DataStore
+1. **renv Added:** I added `renv` to the project to manage the dependencies of the project. This will help in keeping the project isolated and reproducible.
 
-File: R/DataStore.R
+2. **duckDB Manager:** I added an R6 class as an interface to duckDB so that migration to a different database becomes easy.
+   you can find the class in `R/duckdb_manager.R`. It has methods to connect to the database, execute queries, and disconnect from the database.
 
-Implement the following in initialize():
+3. **data store:** I added an R6 class as a Store for the table because of which we can validate the data,
+   reset the data back to original or save the data in the database. This class also calculates the summary
+   of the data. You can find the class in `R/data_store.R`.
 
-Locate bundled database
+4. **data validation:** I added a data validation method in the Store class which checks for duplicate entries and missing values in the data.
+   It returns a list of errors if any are found.
 
-`system.file("extdata", "mtcars.duckdb", package = "golem_shiny")`
+5. **Notifications:** I added a notification system to the app which shows a notification
+   everytime you save data to backend or reset data or even if the data validation fails or something breaks.
 
-Connect to DuckDB
+6. **Edge Cases:** I handled some edge cases like if you accidently change to a NULL value or cut the Row etc...
 
-Load the mtcars table
+7. **\_brand.yml:** It was an overkill for this app but I added a brand.yml file so that we can change the themes of the app anytime.
 
-Store the data in:
+8. **Theme Setter handsontable.js:** I added some extra css files to change the theme of the handsontable.js table. You can find the css files in `inst/app/www/css/`.
+   I also added a DropDown in the app to switch the theme of handsontable.
 
-```
-self$data
-self$original
-```
+9. **Dark Theme:** I added a dark theme to the app which can be switched from the dropdown in the app. This is default for the app.
 
-Implement the behavior of:
+10. **Custom CSS:** I added some custom CSS to the app to make it look better. You can find the CSS file in `inst/app/www/main.css`.
 
-- `update_cell(row, col, value)`
-- `revert()`
-- `summary()`
+11. **SubTasks:** I added Validation, Filtering, Sorting, Formatting and completed the tasks.
 
-**Important:**
-The DataStore object is created once in the main app and passed into the table module.
+With this I achieved the Goal of creating a Shiny app with a handsontable.js table that can be edited and saved to a duckDB database. The app also has a notification system and a theme switcher.
 
-✅ Task 2: Implement the Table Module
-
-File: R/mod_table.R
-
-The module must return a UI with only the widget output,
-and output the table and data back to the main server
-
-### Candidate responsibilities for the module:
-
-- Understand how an R6 object is passed into a module
-- Manage all widget I/O inside the module
-- Ensure the table rerenders when store data changes
-- Trigger updates back into the store using the custom htmlwidget
-
-## ✅ Task 3: Implement the htmlwidget
-
-Files:
-
-- inst/htmlwidgets/hotwidget.js
-- inst/htmlwidgets/hotwidget.css
-
-R/mod_table.R (widget wrappers)
-
-Required from you:
-
-- Render the table in JS
-
-Capture cell edits
-
-- Send edits to Shiny:
-- Handle table rerendering when R sends updated data
-
-## ✅ Task 4: Build the main Shiny application
-
-Follow the provided wireframe:
-
-![Wireframe to Reproduce](inst/app/www/wireframe.png)
-
-# 🧪 Expected Application Behavior
-
-- Data loads from DuckDB on app start (or via a button).
-- Table module displays data using the custom widget.
-- Editing a cell updates the store.
-- Reverting resets the store and rerenders the table.
-- Summary reflects the current dataset.
-- All state lives in the DataStore R6 object.
-
-## 🚀 Optional Enhancements (Bonus)
-
-Not required, but appreciated:
-
-- Save-back-to-DuckDB functionality
-- Inline validation in the table
-- Column type formatting
-- Sorting / filtering
-
-## 📤 Submission
-
-Please send back:
-
-- The working package or app folder
-- Anything extra you'd like us to review
-
-## 🎉 Good Luck!
-
-We’re excited to see your implementation.
+Thanks for this wonderful experience.
