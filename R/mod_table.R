@@ -33,6 +33,33 @@ mod_table_ui <- function(id) {
         card(
           card_header("DataSet"),
           card_body(
+            div(
+              div(
+                class = "d-flex gap-2",
+                selectInput(
+                  inputId = ns("theme_select"),
+                  label = "Theme:",
+                  choices = c(
+                    "Main" = "main",
+                    "Horizon" = "horizon",
+                    "Classic" = "classic"
+                  ),
+                  selected = "horizon",
+                  width = "120px"
+                ),
+                selectInput(
+                  inputId = ns("theme_mode_select"),
+                  label = "Mode:",
+                  choices = c(
+                    "Light" = "light",
+                    "Dark" = "dark",
+                    "Auto" = "auto"
+                  ),
+                  selected = "light",
+                  width = "100px"
+                )
+              )
+            ),
             hotwidgetOutput(ns("table"))
           )
         ),
@@ -110,7 +137,9 @@ mod_table_server <- function(id, data_store) {
           "numeric"
         ),
         enableSorting = TRUE,
-        enableFiltering = TRUE
+        enableFiltering = TRUE,
+        theme = input$theme_select,
+        themeMode = input$theme_mode_select
       )
     })
 

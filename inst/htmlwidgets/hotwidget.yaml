@@ -6,3 +6,5 @@ dependencies:
     stylesheet:
       - handsontable.min.css
       - ht-theme-main.min.css
+      - ht-theme-horizon.min.css
+      - ht-theme-classic.min.css

@@ -11,17 +11,33 @@ hotwidget <- function(
   colTypes = NULL,
   enableSorting = TRUE,
   enableFiltering = TRUE,
+  theme = c("main", "horizon", "classic"),
+  themeMode = c("auto", "light", "dark"),
   width = NULL,
   height = NULL,
   elementId = NULL
 ) {
+  # Validate theme inputs
+  theme <- match.arg(theme)
+  themeMode <- match.arg(themeMode)
+
+  # Construct theme name
+  themeName <- paste0("ht-theme-", theme)
+  if (themeMode != "light") {
+    themeName <- paste0(
+      themeName,
+      if (themeMode == "auto") "-dark-auto" else "-dark"
+    )
+  }
+
   # Convert data frame to list format for Handsontable
   x = list(
     data = data,
     colHeaders = colHeaders %||% names(data),
     colTypes = colTypes,
     enableSorting = enableSorting,
-    enableFiltering = enableFiltering
+    enableFiltering = enableFiltering,
+    themeName = themeName
   )
 
   htmlwidgets::createWidget(

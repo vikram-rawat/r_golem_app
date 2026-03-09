@@ -21,6 +21,7 @@ HTMLWidgets.widget({
         const colTypes = x.colTypes || [];
         const enableSorting = x.enableSorting !== false; // Default to true
         const enableFiltering = x.enableFiltering !== false; // Default to true
+        const themeName = x.themeName || 'ht-theme-main'; // Default theme
 
         // Create column configuration
         let columns = [];
@@ -53,7 +54,7 @@ HTMLWidgets.widget({
         const hot = new Handsontable(container, {
           data: tableData,
           columns: columns.length > 0 ? columns : undefined,
-          themeName: 'ht-theme-main',
+          themeName: themeName,
 
           rowHeaders: false,
           colHeaders: colHeaders || true,

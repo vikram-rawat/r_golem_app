@@ -10,6 +10,8 @@ hotwidget(
   colTypes = NULL,
   enableSorting = TRUE,
   enableFiltering = TRUE,
+  theme = c("main", "horizon", "classic"),
+  themeMode = c("auto", "light", "dark"),
   width = NULL,
   height = NULL,
   elementId = NULL
