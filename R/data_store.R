@@ -97,6 +97,8 @@ data_store <- R6::R6Class(
 
       if (self$validate_dataset(temp_tbl)) {
         self$work_dt <- temp_tbl
+      } else {
+        return(FALSE)
       }
     },
 

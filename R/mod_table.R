@@ -195,9 +195,28 @@ mod_table_server <- function(id, data_store) {
       value <- input$table_cell_change$value
 
       # Update the data store using the update_cell method
-      data_store$update_cell(row, col, value)
-      data_store$work_dt
-      mod_store$update_dt <- mod_store$update_dt + 1
+      tryCatch(
+        {
+          data_store$update_cell(row, col, value)
+          data_store$work_dt
+          mod_store$update_dt <- mod_store$update_dt + 1
+        },
+        error = function(e) {
+          print(e)
+          showNotification(
+            HTML(
+              sprintf(
+                "<p>Please check the cell value before updating</p>
+                <br>
+                <p><strong>Error:</strong> %s</p>",
+                e$message
+              )
+            ),
+            type = "warning",
+            duration = 5
+          )
+        }
+      )
     }) |>
       bindEvent(input$table_cell_change)
 
