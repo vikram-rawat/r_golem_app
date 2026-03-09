@@ -16,8 +16,23 @@ HTMLWidgets.widget({
         container.id = 'handsontable-' + Math.floor(Math.random() * 1000000);
         el.appendChild(container);
 
-        // Store column headers for later use
+        // Store column headers and types for later use
         colHeaders = x.colHeaders || [];
+        const colTypes = x.colTypes || [];
+        const enableSorting = x.enableSorting !== false; // Default to true
+        const enableFiltering = x.enableFiltering !== false; // Default to true
+
+        // Create column configuration
+        let columns = [];
+        if (colHeaders.length > 0) {
+          columns = colHeaders.map((header, index) => {
+            const colType = colTypes[index] || 'text'; // Default to text
+            return {
+              type: colType,
+              data: index,
+            };
+          });
+        }
 
         // Convert R data frame (column-oriented) to 2D array (row-oriented)
         let tableData = [];
@@ -37,6 +52,9 @@ HTMLWidgets.widget({
         // Initialize Handsontable
         const hot = new Handsontable(container, {
           data: tableData,
+          columns: columns.length > 0 ? columns : undefined,
+          themeName: 'ht-theme-main',
+
           rowHeaders: false,
           colHeaders: colHeaders || true,
           colWidths: function (col) {
@@ -48,6 +66,9 @@ HTMLWidgets.widget({
           contextMenu: true,
           manualRowResize: true,
           manualColumnResize: true,
+          columnSorting: enableSorting,
+          filters: enableFiltering,
+          dropdownMenu: enableFiltering, // Enable dropdown menu for filters
           afterChange: function (changes, source) {
             if (source === 'loadData') {
               return; // Don't send event when loading data

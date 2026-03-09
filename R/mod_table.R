@@ -95,7 +95,22 @@ mod_table_server <- function(id, data_store) {
       req(mod_store$store_dt) # Trigger re-render when store_dt changes
       hotwidget(
         data = data_store$work_dt[, -"uuid"],
-        colHeaders = names(data_store$work_dt[, -"uuid"])
+        colHeaders = names(data_store$work_dt[, -"uuid"]),
+        colTypes = c(
+          "text",
+          "numeric",
+          "numeric",
+          "numeric",
+          "numeric",
+          "numeric",
+          "numeric",
+          "numeric",
+          "numeric",
+          "numeric",
+          "numeric"
+        ),
+        enableSorting = TRUE,
+        enableFiltering = TRUE
       )
     })
 

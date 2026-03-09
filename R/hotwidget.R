@@ -8,6 +8,9 @@
 hotwidget <- function(
   data,
   colHeaders = NULL,
+  colTypes = NULL,
+  enableSorting = TRUE,
+  enableFiltering = TRUE,
   width = NULL,
   height = NULL,
   elementId = NULL
@@ -15,7 +18,10 @@ hotwidget <- function(
   # Convert data frame to list format for Handsontable
   x = list(
     data = data,
-    colHeaders = colHeaders %||% names(data)
+    colHeaders = colHeaders %||% names(data),
+    colTypes = colTypes,
+    enableSorting = enableSorting,
+    enableFiltering = enableFiltering
   )
 
   htmlwidgets::createWidget(
