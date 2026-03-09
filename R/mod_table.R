@@ -82,7 +82,7 @@ mod_table_ui <- function(id) {
             ),
             value_box(
               title = "Most Common Cylinders",
-              value = names(which.max(table(mtcars$cyl))),
+              value = textOutput(ns("sm_cyl")),
               showcase = icon("cogs"),
               theme_color = "primary"
             ),
@@ -143,47 +143,59 @@ mod_table_server <- function(id, data_store) {
       )
     })
 
-    output$sm_records <- renderText({
+    data_summary <- reactive({
       req(mod_store$update_dt) # Trigger re-render when update_dt changes
       req(mod_store$store_dt) # Trigger re-render when store_dt changes
+      return(
+        data_store$summary()
+      )
+    })
+
+    output$sm_records <- renderText({
+      # req(mod_store$update_dt) # Trigger re-render when update_dt changes
+      # req(mod_store$store_dt) # Trigger re-render when store_dt changes
       sprintf(
         fmt = "%d Rows & %d columns",
-        nrow(data_store$work_dt),
-        ncol(data_store$work_dt)
+        data_summary()$rows_work_dt,
+        data_summary()$cols_work_dt
       )
     })
 
     output$sm_mpg <- renderText({
-      req(mod_store$update_dt) # Trigger re-render when update_dt changes
-      req(mod_store$store_dt) # Trigger re-render when store_dt changes
+      # req(mod_store$update_dt) # Trigger re-render when update_dt changes
+      # req(mod_store$store_dt) # Trigger re-render when store_dt changes
       sprintf(
         fmt = "%.2f MPG",
-        data_store$work_dt$mpg |>
-          mean() |>
-          round(2)
+        data_summary()$avg_mpg_work_dt
+      )
+    })
+
+    output$sm_cyl <- renderText({
+      # req(mod_store$update_dt) # Trigger re-render when update_dt changes
+      # req(mod_store$store_dt) # Trigger re-render when store_dt changes
+      sprintf(
+        fmt = "%.2f Cylinders",
+        data_summary()$mode_mpg_work_dt
       )
     })
 
     output$sm_hp <- renderText({
-      req(mod_store$update_dt) # Trigger re-render when update_dt changes
-      req(mod_store$store_dt) # Trigger re-render when store_dt changes
+      # req(mod_store$update_dt) # Trigger re-render when update_dt changes
+      # req(mod_store$store_dt) # Trigger re-render when store_dt changes
 
       sprintf(
         fmt = "%d HP",
-        data_store$work_dt$hp |>
-          max()
+        data_summary()$max_hp_work_dt
       )
     })
 
     output$sm_wt <- renderText({
-      req(mod_store$update_dt) # Trigger re-render when update_dt changes
-      req(mod_store$store_dt) # Trigger re-render when store_dt changes
+      # req(mod_store$update_dt) # Trigger re-render when update_dt changes
+      # req(mod_store$store_dt) # Trigger re-render when store_dt changes
 
       sprintf(
         fmt = "%.2f (1000 lbs)",
-        data_store$work_dt$wt |>
-          mean() |>
-          round(2)
+        data_summary()$avg_wt_work_dt
       )
     })
 

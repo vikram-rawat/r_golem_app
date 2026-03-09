@@ -143,21 +143,21 @@ data_store <- R6::R6Class(
       assert_subset(required_cols, colnames(df))
 
       # character checks
-      assert_character(df$cars, any.missing = FALSE, min.chars = 1)
-      assert_character(df$uuid, any.missing = FALSE, min.chars = 1)
+      assert_character(df$cars, min.chars = 1)
+      assert_character(df$uuid, min.chars = 1)
 
       # Numeric checks
       assert_numeric(df$mpg, lower = 0, finite = TRUE)
-      assert_numeric(df$cyl, lower = 1, upper = 10, any.missing = FALSE)
+      assert_numeric(df$cyl, lower = 1, upper = 10)
       assert_numeric(df$disp, lower = 0, finite = TRUE)
       assert_numeric(df$hp, lower = 0, finite = TRUE)
       assert_numeric(df$drat, lower = 0, finite = TRUE)
       assert_numeric(df$wt, lower = 0, finite = TRUE)
       assert_numeric(df$qsec, lower = 0, finite = TRUE)
-      assert_numeric(df$vs, lower = 0, upper = 1, any.missing = FALSE)
-      assert_numeric(df$am, lower = 0, upper = 1, any.missing = FALSE)
-      assert_numeric(df$gear, lower = 1, upper = 10, any.missing = FALSE)
-      assert_numeric(df$carb, lower = 1, upper = 10, any.missing = FALSE)
+      assert_numeric(df$vs, lower = 0, upper = 1)
+      assert_numeric(df$am, lower = 0, upper = 1)
+      assert_numeric(df$gear, lower = 1, upper = 10)
+      assert_numeric(df$carb, lower = 1, upper = 10)
 
       return(TRUE)
     },
@@ -170,7 +170,27 @@ data_store <- R6::R6Class(
       if (is.null(self$work_dt)) {
         return("No data loaded")
       }
-      sprintf("Rows: %d | Columns: %d", nrow(self$work_dt), ncol(self$work_dt))
+      return(
+        list(
+          rows_work_dt = self$work_dt |> nrow(),
+          cols_work_dt = self$work_dt |> ncol(),
+          avg_mpg_work_dt = self$work_dt$mpg |>
+            mean() |>
+            round(2),
+          mode_mpg_work_dt = self$work_dt[,
+            .N,
+            by = cyl
+          ][
+            which.max(N),
+            round(cyl, 0)
+          ],
+          max_hp_work_dt = self$work_dt$hp |>
+            max(),
+          avg_wt_work_dt = self$work_dt$wt |>
+            mean() |>
+            round(2)
+        )
+      )
     }
   )
 )
