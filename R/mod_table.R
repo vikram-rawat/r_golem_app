@@ -212,7 +212,7 @@ mod_table_server <- function(id, data_store) {
                 e$message
               )
             ),
-            type = "warning",
+            type = "error",
             duration = 5
           )
         }
@@ -235,12 +235,35 @@ mod_table_server <- function(id, data_store) {
 
     # Listen for Save button click
     observe({
-      data_store$save_table()
-      # Call showNotification to display the message
-      showNotification(
-        "MTCars table updated successfully!",
-        type = "message",
-        duration = 5
+      tryCatch(
+        {
+          data_store$save_table()
+          # Call showNotification to display the message
+          showNotification(
+            "MTCars table updated successfully!",
+            type = "success",
+            duration = 5
+          )
+        },
+        error = function(e) {
+          showNotification(
+            HTML(
+              sprintf(
+                r"{
+                  <p style="color: red;">Data Validation Failed</p>
+                  <br>
+                  <p>
+                    <strong>Error:</strong>
+                    %s
+                  </p>
+                }",
+                e$message
+              )
+            ),
+            type = "error",
+            duration = 5
+          )
+        }
       )
     }) |>
       bindEvent(input$save_btn)

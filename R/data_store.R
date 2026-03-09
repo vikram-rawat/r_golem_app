@@ -113,8 +113,12 @@ data_store <- R6::R6Class(
     #' Write the current working dataset back to the database.
     #' @return No return value, called for side effects.
     save_table = function() {
-      self$db_mng$db_write_table(self$work_dt, "mtcars")
-      self$original_dt <- copy(self$work_dt)
+      if (self$validate_dataset(self$work_dt)) {
+        self$db_mng$db_write_table(self$work_dt, "mtcars")
+        self$original_dt <- copy(self$work_dt)
+      } else {
+        return(FALSE)
+      }
     },
 
     #' @description
