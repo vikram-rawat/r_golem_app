@@ -55,7 +55,7 @@ mod_table_ui <- function(id) {
                     "Dark" = "dark",
                     "Auto" = "auto"
                   ),
-                  selected = "light",
+                  selected = "dark",
                   width = "100px"
                 )
               )
