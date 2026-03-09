@@ -168,7 +168,7 @@ mod_table_server <- function(id, data_store) {
 
     output$sm_cyl <- renderText({
       sprintf(
-        fmt = "%.2f Cylinders",
+        fmt = "%d Cylinders",
         data_summary()$mode_mpg_work_dt
       )
     })
