@@ -152,8 +152,6 @@ mod_table_server <- function(id, data_store) {
     })
 
     output$sm_records <- renderText({
-      # req(mod_store$update_dt) # Trigger re-render when update_dt changes
-      # req(mod_store$store_dt) # Trigger re-render when store_dt changes
       sprintf(
         fmt = "%d Rows & %d columns",
         data_summary()$rows_work_dt,
@@ -162,8 +160,6 @@ mod_table_server <- function(id, data_store) {
     })
 
     output$sm_mpg <- renderText({
-      # req(mod_store$update_dt) # Trigger re-render when update_dt changes
-      # req(mod_store$store_dt) # Trigger re-render when store_dt changes
       sprintf(
         fmt = "%.2f MPG",
         data_summary()$avg_mpg_work_dt
@@ -171,8 +167,6 @@ mod_table_server <- function(id, data_store) {
     })
 
     output$sm_cyl <- renderText({
-      # req(mod_store$update_dt) # Trigger re-render when update_dt changes
-      # req(mod_store$store_dt) # Trigger re-render when store_dt changes
       sprintf(
         fmt = "%.2f Cylinders",
         data_summary()$mode_mpg_work_dt
@@ -180,9 +174,6 @@ mod_table_server <- function(id, data_store) {
     })
 
     output$sm_hp <- renderText({
-      # req(mod_store$update_dt) # Trigger re-render when update_dt changes
-      # req(mod_store$store_dt) # Trigger re-render when store_dt changes
-
       sprintf(
         fmt = "%d HP",
         data_summary()$max_hp_work_dt
@@ -190,9 +181,6 @@ mod_table_server <- function(id, data_store) {
     })
 
     output$sm_wt <- renderText({
-      # req(mod_store$update_dt) # Trigger re-render when update_dt changes
-      # req(mod_store$store_dt) # Trigger re-render when store_dt changes
-
       sprintf(
         fmt = "%.2f (1000 lbs)",
         data_summary()$avg_wt_work_dt
