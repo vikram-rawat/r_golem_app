@@ -14,10 +14,31 @@ app_server <- function(input, output, session) {
     }
   )
 
-  session$userData$duckdb_mng <- get_db_store(
-    package = db_path$package,
-    folder = db_path$folder,
-    filename = db_path$filename
+  tryCatch(
+    {
+      session$userData$duckdb_mng <- get_db_store(
+        package = db_path$package,
+        folder = db_path$folder,
+        filename = db_path$filename
+      )
+    },
+    error = function(e) {
+      showNotification(
+        HTML(
+          sprintf(
+            "<p>Something Wrong with Data in Database</p>
+             <br>
+             <p>
+               <strong>Data Validation Error:</strong>
+               %s
+             </p>",
+            e$message
+          )
+        ),
+        type = "error",
+        duration = 5
+      )
+    }
   )
 
   session$userData$duckdb_mng$db_connect()

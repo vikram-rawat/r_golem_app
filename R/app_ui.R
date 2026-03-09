@@ -45,7 +45,7 @@ app_ui <- function(request) {
       nav_item(
         input_dark_mode(
           id = "dark_mode",
-          mode = "light"
+          mode = "dark"
         )
       )
     )

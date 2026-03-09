@@ -16,8 +16,25 @@ HTMLWidgets.widget({
         container.id = 'handsontable-' + Math.floor(Math.random() * 1000000);
         el.appendChild(container);
 
-        // Store column headers for later use
+        // Store column headers and types for later use
         colHeaders = x.colHeaders || [];
+        const colTypes = x.colTypes || [];
+        const enableSorting = x.enableSorting !== false; // Default to true
+        const enableFiltering = x.enableFiltering !== false; // Default to true
+        const themeName = x.themeName || 'ht-theme-main'; // Default theme
+
+        // Create column configuration
+        let columns = [];
+        if (colHeaders.length > 0) {
+          columns = colHeaders.map((header, index) => {
+            const colType = colTypes[index] || 'text'; // Default to text
+            return {
+              type: colType,
+              data: index,
+              className: 'htLeft',
+            };
+          });
+        }
 
         // Convert R data frame (column-oriented) to 2D array (row-oriented)
         let tableData = [];
@@ -37,13 +54,59 @@ HTMLWidgets.widget({
         // Initialize Handsontable
         const hot = new Handsontable(container, {
           data: tableData,
-          rowHeaders: true,
+          // columns: columns.length > 0 ? columns : undefined,
+          columns: colHeaders.map((header, index) => {
+            const colType = colTypes[index] || 'text';
+            return {
+              type: colType,
+              data: index,
+              className: 'htLeft', // This aligns both cell and header text to the left
+            };
+          }),
+          // autoColumnSize: {
+          //   useHeaders: true, // Ensures header text is considered in sizing
+          // },
+          // wordWrap: true,
+
+          afterGetColHeader: function (col, TH) {
+            if (TH && typeof col === 'number') {
+              TH.style.textAlign = 'left';
+            }
+          },
+          themeName: themeName,
+
+          rowHeaders: false,
           colHeaders: colHeaders || true,
+          stretchH: 'all',
+
+          colWidths: function (col) {
+            // Make first column (cars) wider, others default
+            return col === 0 ? 150 : undefined;
+          },
+
+          contextMenu: [
+            'cut',
+            'copy',
+            '---------',
+            'row_above',
+            'row_below',
+            'remove_row',
+            '---------',
+            'alignment',
+            'make_read_only',
+            'clear_column',
+          ],
+
           height: 'auto',
+          width: 'auto',
+
           licenseKey: 'non-commercial-and-evaluation',
           contextMenu: true,
           manualRowResize: true,
           manualColumnResize: true,
+          columnSorting: enableSorting,
+          filters: enableFiltering,
+          dropdownMenu: enableFiltering, // Enable dropdown menu for filters
           afterChange: function (changes, source) {
             if (source === 'loadData') {
               return; // Don't send event when loading data

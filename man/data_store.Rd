@@ -61,6 +61,7 @@ reverting changes, and summarizing the dataset.
 \item \href{#method-data_store-update_cell}{\code{data_store$update_cell()}}
 \item \href{#method-data_store-revert}{\code{data_store$revert()}}
 \item \href{#method-data_store-save_table}{\code{data_store$save_table()}}
+\item \href{#method-data_store-validate_dataset}{\code{data_store$validate_dataset()}}
 \item \href{#method-data_store-summary}{\code{data_store$summary()}}
 \item \href{#method-data_store-clone}{\code{data_store$clone()}}
 }
@@ -129,6 +130,26 @@ Write the current working dataset back to the database.
 
 \subsection{Returns}{
 No return value, called for side effects.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-data_store-validate_dataset"></a>}}
+\if{latex}{\out{\hypertarget{method-data_store-validate_dataset}{}}}
+\subsection{Method \code{validate_dataset()}}{
+Validate the structure and content of the `mtcars` dataset.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{data_store$validate_dataset(df)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{df}}{Data frame to validate}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+TRUE if validation passes, otherwise throws an error.
 }
 }
 \if{html}{\out{<hr>}}

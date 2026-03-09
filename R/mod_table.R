@@ -7,7 +7,7 @@ mod_table_ui <- function(id) {
   nav_panel(
     tagList(icon("file-alt"), "DataSet"),
     div(
-      class = "container-md",
+      # class = "container-lg",
       layout_column_wrap(
         width = 1,
         h1("MTCars DataSet"),
@@ -29,10 +29,37 @@ mod_table_ui <- function(id) {
         )
       ),
       layout_columns(
-        col_widths = c(8, 4),
+        col_widths = c(9, 3),
         card(
           card_header("DataSet"),
           card_body(
+            div(
+              div(
+                class = "d-flex gap-2",
+                selectInput(
+                  inputId = ns("theme_select"),
+                  label = "Theme:",
+                  choices = c(
+                    "Main" = "main",
+                    "Horizon" = "horizon",
+                    "Classic" = "classic"
+                  ),
+                  selected = "horizon",
+                  width = "120px"
+                ),
+                selectInput(
+                  inputId = ns("theme_mode_select"),
+                  label = "Mode:",
+                  choices = c(
+                    "Light" = "light",
+                    "Dark" = "dark",
+                    "Auto" = "auto"
+                  ),
+                  selected = "dark",
+                  width = "100px"
+                )
+              )
+            ),
             hotwidgetOutput(ns("table"))
           )
         ),
@@ -55,7 +82,7 @@ mod_table_ui <- function(id) {
             ),
             value_box(
               title = "Most Common Cylinders",
-              value = names(which.max(table(mtcars$cyl))),
+              value = textOutput(ns("sm_cyl")),
               showcase = icon("cogs"),
               theme_color = "primary"
             ),
@@ -95,51 +122,68 @@ mod_table_server <- function(id, data_store) {
       req(mod_store$store_dt) # Trigger re-render when store_dt changes
       hotwidget(
         data = data_store$work_dt[, -"uuid"],
-        colHeaders = names(data_store$work_dt[, -"uuid"])
+        colHeaders = names(data_store$work_dt[, -"uuid"]),
+        colTypes = c(
+          "text",
+          "numeric",
+          "numeric",
+          "numeric",
+          "numeric",
+          "numeric",
+          "numeric",
+          "numeric",
+          "numeric",
+          "numeric",
+          "numeric"
+        ),
+        enableSorting = TRUE,
+        enableFiltering = TRUE,
+        theme = input$theme_select,
+        themeMode = input$theme_mode_select
+      )
+    })
+
+    data_summary <- reactive({
+      req(mod_store$update_dt) # Trigger re-render when update_dt changes
+      req(mod_store$store_dt) # Trigger re-render when store_dt changes
+      return(
+        data_store$summary()
       )
     })
 
     output$sm_records <- renderText({
-      req(mod_store$update_dt) # Trigger re-render when update_dt changes
-      req(mod_store$store_dt) # Trigger re-render when store_dt changes
       sprintf(
         fmt = "%d Rows & %d columns",
-        nrow(data_store$work_dt),
-        ncol(data_store$work_dt)
+        data_summary()$rows_work_dt,
+        data_summary()$cols_work_dt
       )
     })
 
     output$sm_mpg <- renderText({
-      req(mod_store$update_dt) # Trigger re-render when update_dt changes
-      req(mod_store$store_dt) # Trigger re-render when store_dt changes
       sprintf(
         fmt = "%.2f MPG",
-        data_store$work_dt$mpg |>
-          mean() |>
-          round(2)
+        data_summary()$avg_mpg_work_dt
+      )
+    })
+
+    output$sm_cyl <- renderText({
+      sprintf(
+        fmt = "%d Cylinders",
+        data_summary()$mode_mpg_work_dt
       )
     })
 
     output$sm_hp <- renderText({
-      req(mod_store$update_dt) # Trigger re-render when update_dt changes
-      req(mod_store$store_dt) # Trigger re-render when store_dt changes
-
       sprintf(
         fmt = "%d HP",
-        data_store$work_dt$hp |>
-          max()
+        data_summary()$max_hp_work_dt
       )
     })
 
     output$sm_wt <- renderText({
-      req(mod_store$update_dt) # Trigger re-render when update_dt changes
-      req(mod_store$store_dt) # Trigger re-render when store_dt changes
-
       sprintf(
         fmt = "%.2f (1000 lbs)",
-        data_store$work_dt$wt |>
-          mean() |>
-          round(2)
+        data_summary()$avg_wt_work_dt
       )
     })
 
@@ -151,9 +195,30 @@ mod_table_server <- function(id, data_store) {
       value <- input$table_cell_change$value
 
       # Update the data store using the update_cell method
-      data_store$update_cell(row, col, value)
-      data_store$work_dt
-      mod_store$update_dt <- mod_store$update_dt + 1
+      tryCatch(
+        {
+          data_store$update_cell(row, col, value)
+          data_store$work_dt
+          mod_store$update_dt <- mod_store$update_dt + 1
+        },
+        error = function(e) {
+          print(e)
+          showNotification(
+            HTML(
+              sprintf(
+                "<p>Please check the cell value before updating</p>
+                <br>
+                <p><strong>Data Validation Error:</strong>
+                <br> 
+                %s</p>",
+                e$message
+              )
+            ),
+            type = "error",
+            duration = 5
+          )
+        }
+      )
     }) |>
       bindEvent(input$table_cell_change)
 
@@ -172,12 +237,36 @@ mod_table_server <- function(id, data_store) {
 
     # Listen for Save button click
     observe({
-      data_store$save_table()
-      # Call showNotification to display the message
-      showNotification(
-        "MTCars table updated successfully!",
-        type = "message",
-        duration = 5
+      tryCatch(
+        {
+          data_store$save_table()
+          # Call showNotification to display the message
+          showNotification(
+            "MTCars table updated successfully!",
+            type = "message",
+            duration = 5
+          )
+        },
+        error = function(e) {
+          showNotification(
+            HTML(
+              sprintf(
+                r"{
+                  <p style="color: red;">Couldn't Save Table</p>
+                  <br>
+                  <p>
+                    <strong>Data Validation Error:</strong>
+                    <br>
+                    %s
+                  </p>
+                }",
+                e$message
+              )
+            ),
+            type = "error",
+            duration = 5
+          )
+        }
       )
     }) |>
       bindEvent(input$save_btn)

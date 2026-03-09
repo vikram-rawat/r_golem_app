@@ -1,4 +1,35 @@
+/* MTCars DataSet heading */
+h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
+    Arial, sans-serif;
+  color: #680a83; /* dark-purple */
+  letter-spacing: -0.5px;
+}
+
+/* interactive data table subheading */
+h6 {
+  font-size: 1rem;
+  font-weight: 500;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
+    Arial, sans-serif;
+  color: #959595; /* dark-grey */
+  margin-top: -1.5rem;
+  padding: 0;
+}
+
 .bslib-value-box .value-box-value,
 .bslib-value-box .shiny-text-output {
   font-size: 1.3rem !important;
+}
+
+.handsontable th {
+  margin-left: -1rem !important;
+  text-align: left !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
 }
