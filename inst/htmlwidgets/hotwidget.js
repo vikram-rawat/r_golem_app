@@ -19,7 +19,6 @@ HTMLWidgets.widget({
         // Store column headers and types for later use
         colHeaders = x.colHeaders || [];
         const colTypes = x.colTypes || [];
-        const enableSorting = x.enableSorting !== false; // Default to true
         const enableFiltering = x.enableFiltering !== false; // Default to true
         const themeName = x.themeName || 'ht-theme-main'; // Default theme
 
@@ -71,19 +70,28 @@ HTMLWidgets.widget({
           afterGetColHeader: function (col, TH) {
             if (TH && typeof col === 'number') {
               TH.style.textAlign = 'left';
+              Handsontable.dom.addClass(TH, 'htLeft');
             }
           },
-          themeName: themeName,
-
-          rowHeaders: false,
           colHeaders: colHeaders || true,
-          stretchH: 'all',
+          columnSorting: {
+            sortEmptyCells: true, // optional: allows sorting when cells are empty
+            initialConfig: {
+              column: 0, // optional: default sorted column
+              sortOrder: 'asc', // optional: default order
+            },
+          },
 
           colWidths: function (col) {
             // Make first column (cars) wider, others default
             return col === 0 ? 150 : undefined;
           },
 
+          stretchH: 'all',
+
+          themeName: themeName,
+
+          rowHeaders: false,
           contextMenu: [
             'cut',
             'copy',
@@ -104,7 +112,7 @@ HTMLWidgets.widget({
           contextMenu: true,
           manualRowResize: true,
           manualColumnResize: true,
-          columnSorting: enableSorting,
+
           filters: enableFiltering,
           dropdownMenu: enableFiltering, // Enable dropdown menu for filters
           afterChange: function (changes, source) {
